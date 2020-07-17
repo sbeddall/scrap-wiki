@@ -1,1 +1,3 @@
 markdown2
+beautifulsoup4
+pathlib2

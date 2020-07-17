@@ -13,9 +13,13 @@ ScrapWiki features:
 Shit I want, so it'll get implemented:
 - [ ] Custom Tagging
 - [ ] Search files by tag
-
+- [ ] Add git hook that runs a cred check to prevent accidental commit of secrets
 
 # Invocation Instructions
 
 1. `python -m pip install -r _internal/requirements.txt`
 2. `python rebuilt.py`
+
+Just gotta dust off my js.
+
+Check the github.io for this project.
