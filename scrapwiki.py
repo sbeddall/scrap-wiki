@@ -11,19 +11,14 @@ if __name__ == "__main__":
         description="Generate a website from files discovered under source/"
     )
 
-    parser.add_argument('target', help="The target scrapwiki command.")
-    parser.add_argument('--clean', dest="clean", action='store_true', default=False)
+    parser.add_argument("target", help="The target scrapwiki command.")
+    parser.add_argument("--clean", dest="clean", action="store_true", default=False)
     args = parser.parse_args()
 
     if args.target == "build":
-      if args.clean:
-        subprocess.check_call(["python", clean_])
+        if args.clean:
+            subprocess.check_call(["python", clean_])
 
-      subprocess.check_call(["python", build_])
+        subprocess.check_call(["python", build_])
     else:
-      print("Not a recognized command. Exiting.")
-
-
-
-
-
+        print("Not a recognized command. Exiting.")
