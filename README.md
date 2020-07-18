@@ -22,4 +22,4 @@ Shit I want, so it'll get implemented:
 
 Just gotta dust off my js.
 
-Check the github.io for this project.
+Check the github.io for this project. Intent is to place documentation into the source folder for this repo to use as an example. 

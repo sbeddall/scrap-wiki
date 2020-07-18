@@ -23,8 +23,8 @@ source_dir = os.path.join(root_dir, "source")
 target_dir = os.path.join(root_dir, "target")
 template_html = os.path.join(root_dir, "_internal", "template.html")
 
-print("Source Directory: ".format(source_dir))
-print("Target Directory: ".format(target_dir))
+print("Source Directory: {}".format(source_dir))
+print("Target Directory: {}".format(target_dir))
 
 def get_template():
   with open(template_html, "r", encoding="utf-8") as f:
@@ -96,6 +96,18 @@ def writeText(content, filename):
 def construct_toc(file_list):
   pass
 
+def populate_html_template(file):
+  with open(file, 'r', encoding="utf-8") as f:
+    current_file_content = f.read()
+
+  current_file_title = os.path.splitext(os.path.basename(file))[0]
+
+  updated_content = update_content_relative_references(os.path.join(root_dir, "source"), file, current_file_content)
+  converted_html = markdown2.markdown(updated_content)
+  final_content = get_template().replace("{{nav_content}}", "").replace("{{content}}", converted_html).replace("{{title}}",current_file_title)
+
+  return final_content
+
 candidates_for_move = []
 
 # we need to do a single traversal before doing any work
@@ -107,17 +119,8 @@ for dirpath, dnames, fnames in os.walk(source_dir):
         candidates_for_move.append(current_file)
 
 for current_file in candidates_for_move:
-  current_file_title = os.path.splitext(os.path.basename(current_file))[0]
   relpath_inside_source = os.path.relpath(current_file, source_dir)
-  print(relpath_inside_source)
   target_path = os.path.join(target_dir, os.path.splitext(relpath_inside_source)[0] + ".html")
-  print(target_path)
+  content = populate_html_template(current_file)
 
-  with open(current_file, 'r', encoding="utf-8") as f:
-    current_file_content = f.read()
-
-  updated_content = update_content_relative_references(os.path.join(root_dir, "source"), current_file, current_file_content)
-  converted_html = markdown2.markdown(updated_content)
-  final_content = get_template().replace("{{nav_content}}", "").replace("{{content}}", converted_html).replace("{{title}}",current_file_title)
-
-  writeText(final_content, target_path)
+  writeText(content, target_path)
