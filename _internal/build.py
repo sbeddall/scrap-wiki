@@ -7,25 +7,22 @@ try:
 except:
     from pathlib2 import Path
 
-RELATIVE_LINK_REPLACEMENT_SYNTAX = (
-    "https://github.com/{repo_id}/tree/{build_sha}/{target_resource_path}"
-)
-
 LINK_DISCOVERY_REGEX = r"\[([^\]]*)\]\(([^)]+)\)"
 PREDEFINED_LINK_DISCOVERY_REGEX = r"(\[[^\]]+]\:)\s*([^\s]+)"
 
-IMAGE_FILE_EXTENSIONS = [".jpeg", ".jpg", ".png", ".gif", ".tiff"]
-RELATIVE_LINK_REPLACEMENT_SYNTAX_FOR_IMAGE = (
-    "https://github.com/{repo_id}/raw/{build_sha}/{target_resource_path}"
-)
+
+TOC_ITEM_TEMPLATE = """
+<a href="{relative_target_path}">
+<div class="toc_content_div {selected} toc_content_div_l{level}">
+ Content Link
+</div>
+</a>
+"""
 
 root_dir = os.path.abspath(os.path.join(os.path.abspath(__file__), "..", ".."))
 source_dir = os.path.join(root_dir, "source")
-target_dir = os.path.join(root_dir, "target")
+target_dir = os.path.join(root_dir, "docs")
 template_html = os.path.join(root_dir, "_internal", "template.html")
-
-print("Source Directory: {}".format(source_dir))
-print("Target Directory: {}".format(target_dir))
 
 
 def get_template():
