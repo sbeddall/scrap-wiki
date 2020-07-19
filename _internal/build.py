@@ -101,11 +101,6 @@ def writeText(content, filename):
     with open(filename, "w", encoding="utf-8") as f:
         f.write(content)
 
-
-def construct_toc(file_list):
-    pass
-
-
 def populate_html_template(file):
     with open(file, "r", encoding="utf-8") as f:
         current_file_content = f.read()
@@ -124,7 +119,6 @@ def populate_html_template(file):
     )
 
     return final_content
-
 
 candidates_for_move = []
 
