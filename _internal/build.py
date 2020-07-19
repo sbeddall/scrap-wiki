@@ -65,15 +65,11 @@ class TemplateContext:
                 )
 
                 # get the relative path to the file
-                navtuples.append(
-                    (relpath, self.get_title(file), level, False)
-                )
+                navtuples.append((relpath, self.get_title(file), level, False))
 
             else:
                 relpath = "#"
-                navtuples.append(
-                    (relpath, self.get_title(file), level, True)
-                )
+                navtuples.append((relpath, self.get_title(file), level, True))
 
         for navtuple in navtuples:
             if navtuple[3]:
@@ -85,7 +81,7 @@ class TemplateContext:
                 relative_target_path=navtuple[0],
                 title=navtuple[1],
                 level=navtuple[2],
-                selected=suffix
+                selected=suffix,
             )
 
         return accumulated_html
@@ -102,11 +98,11 @@ class TemplateContext:
         converted_html = markdown2.markdown(updated_content)
 
         cssrelpath = os.path.sep.join(
-            os.path.normpath(os.path.relpath(css_file, self.path)).split(
-                os.path.sep
-            )[1:]
+            os.path.normpath(os.path.relpath(css_file, self.path)).split(os.path.sep)[
+                1:
+            ]
         )
-            
+
         final_content = (
             get_template()
             .replace("{{nav_content}}", self.get_nav_content())
@@ -129,6 +125,7 @@ def populate_index_content():
 
         with open(gen_index, "w", encoding="utf-8") as f:
             f.write(content)
+
 
 def populate_css():
     with open(css_file_src, "r", encoding="utf-8") as f:
