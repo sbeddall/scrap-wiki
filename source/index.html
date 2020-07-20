@@ -41,4 +41,4 @@ Shit I want, so it'll get implemented:
 
 ### Asides
 
-[GitHub Corners](https://tholman.com/github-corners/) is the origin my the wonderful contributing badge.
+[GitHub Corners](https://tholman.com/github-corners/) is the origin of my the wonderful contributing badge.

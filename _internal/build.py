@@ -58,11 +58,11 @@ class TemplateContext:
             if not file == self.path:
                 # self.path = source
                 # file = target
-                relpath = os.path.sep.join(
+                relpath = os.path.splitext(os.path.sep.join(
                     os.path.normpath(os.path.relpath(file, self.path)).split(
                         os.path.sep
                     )[1:]
-                )
+                ))[0] + ".html"
 
                 # get the relative path to the file
                 navtuples.append((relpath, self.get_title(file), level, False))
@@ -115,9 +115,9 @@ class TemplateContext:
 
 
 def populate_index_content():
-    if CONFIG["path-to-index"]:
+    if CONFIG["path_to_index"]:
         with open(
-            os.path.abspath(os.path.join(internal_dir, CONFIG["path-to-index"])),
+            os.path.abspath(os.path.join(internal_dir, CONFIG["path_to_index"])),
             "r",
             encoding="utf-8",
         ) as f:

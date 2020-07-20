@@ -1,3 +1,4 @@
 {
-  "path-to-index": "../README.md"
+  "path_to_index": "../README.md",
+  "serve_port": "8000"
 }
