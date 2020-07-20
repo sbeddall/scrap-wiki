@@ -93,9 +93,24 @@ a:active {
   font-size: 11pt;
 }
 
+.folder_item {
+  padding-bottom: 0px;
+}
+
 .selected {
   background-color: white;
   color: black;
+}
+
+.f_icon {
+  line-height: 12pt;
+  vertical-align: text-bottom;
+}
+
+.f_text {
+  line-height: 12pt;
+  vertical-align: sub;
+  padding-left: 5px;
 }
 
 .selected:hover {

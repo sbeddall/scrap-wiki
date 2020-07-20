@@ -33,8 +33,8 @@ TOC_ITEM_TEMPLATE = """
 """
 
 TOC_TREE_TEMPLATE = """
-<div class="toc_content_div toc_content_div_l{level}">
- {title}
+<div class="toc_content_div folder_item toc_content_div_l{level}">
+    <span class="f_icon">&#8627;</span><span class="f_text">{title}</span>
 </div>
 """
 
@@ -56,22 +56,7 @@ class TemplateContext:
         return os.path.splitext(os.path.basename(target_path))[0]
 
     def format_title(self, text):
-        return text.replace(os.path.sep, "/").replace("/", "&#8627; ",1)
-
-    def test_algo(file_list):
-        current_level = 0
-        for file in file_list:
-            relpath_inside_source = file.replace(source_dir, "")
-            calc_level = len(os.path.normpath(relpath_inside_source).split(os.path.sep)) - 1
-
-            if calc_level > current_level:
-                current_level = calc_level
-                # special case
-                if current_level == 1:
-                    print("root/")
-                else:
-                    print(os.path.dirname(relpath_inside_source))
-            print("{} at level {}".format(relpath_inside_source,calc_level))
+        return text.replace(os.path.sep, "/").replace("/", "",1)
 
     def get_nav_content(self):
         accumulated_html = ""
