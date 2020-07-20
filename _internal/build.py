@@ -56,7 +56,7 @@ class TemplateContext:
         return os.path.splitext(os.path.basename(target_path))[0]
 
     def format_title(self, text):
-        return text.replace(os.path.sep, "/").replace("/", "",1)
+        return text.replace(os.path.sep, "/").replace("/", "", 1)
 
     def get_nav_content(self):
         accumulated_html = ""
@@ -66,7 +66,9 @@ class TemplateContext:
         for file in self.complete_path_list:
             level = len(os.path.normpath(file).split(os.path.sep)) - rel_path_count + 1
             relpath_inside_source = file.replace(source_dir, "")
-            calc_level = len(os.path.normpath(relpath_inside_source).split(os.path.sep)) - 1
+            calc_level = (
+                len(os.path.normpath(relpath_inside_source).split(os.path.sep)) - 1
+            )
 
             # first time we hit level, we need to output a text node
             if calc_level != current_level:
@@ -75,7 +77,15 @@ class TemplateContext:
                 if current_level == 1:
                     navtuples.append(("#", "root/", 0, False, True))
                 else:
-                    navtuples.append(("#", self.format_title(os.path.dirname(relpath_inside_source)), calc_level, False, True))
+                    navtuples.append(
+                        (
+                            "#",
+                            self.format_title(os.path.dirname(relpath_inside_source)),
+                            calc_level,
+                            False,
+                            True,
+                        )
+                    )
 
             # we always output a link node though
             if not file == self.path:
@@ -106,8 +116,7 @@ class TemplateContext:
 
             if navtuple[4]:
                 accumulated_html += TOC_TREE_TEMPLATE.format(
-                    title=navtuple[1],
-                    level=navtuple[2]
+                    title=navtuple[1], level=navtuple[2]
                 )
             else:
                 # navtuple[4] is true when it is simply a text node. false when it's a link node
@@ -132,9 +141,9 @@ class TemplateContext:
         converted_html = markdown2.markdown(updated_content)
 
         cssrelpath = os.path.sep.join(
-            os.path.normpath(os.path.relpath(css_file_source, self.path)).split(os.path.sep)[
-                1:
-            ]
+            os.path.normpath(os.path.relpath(css_file_source, self.path)).split(
+                os.path.sep
+            )[1:]
         )
 
         final_content = (
@@ -246,6 +255,7 @@ def write_text(content, filename):
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "w", encoding="utf-8") as f:
         f.write(content)
+
 
 candidates_for_move = []
 
