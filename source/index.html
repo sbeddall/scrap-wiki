@@ -9,11 +9,12 @@ Check the github.io for this project for an easy demo of output. You can see inp
 ScrapWiki features:
 
 - [x] Docs written in MARKDOWN. Needs to be SIMPLE DAMNIT!
-- [x] Reference other markdown files via relative path. The path will be taken resolved for you.
+- [x] Reference other markdown files via relative path. The path will be resolved for you.
 - [x] Anything under `source/` will be built into the equivalent folder in `docs/` as html.
 - [x] Tested on Python 3.7
 
 Shit I want, so it'll get implemented:
+
 - [ ] Custom Tagging
 - [ ] Search files by tag
 - [ ] Add git hook that runs a cred check to prevent accidental commit of secrets
