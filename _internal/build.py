@@ -21,6 +21,7 @@ config_file = os.path.join(internal_dir, "config.json")
 gen_index = os.path.join(source_dir, "index.html")
 
 css_file_src = os.path.join(internal_dir, "site.css")
+css_file_source = os.path.join(source_dir, "site.css")
 css_file = os.path.join(target_dir, "site.css")
 
 TOC_ITEM_TEMPLATE = """
@@ -29,6 +30,12 @@ TOC_ITEM_TEMPLATE = """
  {title}
 </div>
 </a>
+"""
+
+TOC_TREE_TEMPLATE = """
+<div class="toc_content_div folder_item toc_content_div_l{level}">
+    <span class="f_icon">&#8627;</span><span class="f_text">{title}</span>
+</div>
 """
 
 if os.path.exists(config_file):
@@ -48,28 +55,48 @@ class TemplateContext:
     def get_title(self, target_path):
         return os.path.splitext(os.path.basename(target_path))[0]
 
+    def format_title(self, text):
+        return text.replace(os.path.sep, "/").replace("/", "",1)
+
     def get_nav_content(self):
         accumulated_html = ""
         navtuples = []
+        current_level = -1
 
         for file in self.complete_path_list:
-            level = len(os.path.normpath(file).split(os.path.sep)) - rel_path_count
+            level = len(os.path.normpath(file).split(os.path.sep)) - rel_path_count + 1
+            relpath_inside_source = file.replace(source_dir, "")
+            calc_level = len(os.path.normpath(relpath_inside_source).split(os.path.sep)) - 1
 
+            # first time we hit level, we need to output a text node
+            if calc_level != current_level:
+                current_level = calc_level
+                # special case for root
+                if current_level == 1:
+                    navtuples.append(("#", "root/", 0, False, True))
+                else:
+                    navtuples.append(("#", self.format_title(os.path.dirname(relpath_inside_source)), calc_level, False, True))
+
+            # we always output a link node though
             if not file == self.path:
                 # self.path = source
                 # file = target
-                relpath = os.path.splitext(os.path.sep.join(
-                    os.path.normpath(os.path.relpath(file, self.path)).split(
-                        os.path.sep
-                    )[1:]
-                ))[0] + ".html"
+                relpath = (
+                    os.path.splitext(
+                        os.path.sep.join(
+                            os.path.normpath(os.path.relpath(file, self.path)).split(
+                                os.path.sep
+                            )[1:]
+                        )
+                    )[0]
+                    + ".html"
+                )
 
                 # get the relative path to the file
-                navtuples.append((relpath, self.get_title(file), level, False))
-
+                navtuples.append((relpath, self.get_title(file), level, False, False))
             else:
                 relpath = "#"
-                navtuples.append((relpath, self.get_title(file), level, True))
+                navtuples.append((relpath, self.get_title(file), level, True, False))
 
         for navtuple in navtuples:
             if navtuple[3]:
@@ -77,12 +104,19 @@ class TemplateContext:
             else:
                 suffix = ""
 
-            accumulated_html += TOC_ITEM_TEMPLATE.format(
-                relative_target_path=navtuple[0],
-                title=navtuple[1],
-                level=navtuple[2],
-                selected=suffix,
-            )
+            if navtuple[4]:
+                accumulated_html += TOC_TREE_TEMPLATE.format(
+                    title=navtuple[1],
+                    level=navtuple[2]
+                )
+            else:
+                # navtuple[4] is true when it is simply a text node. false when it's a link node
+                accumulated_html += TOC_ITEM_TEMPLATE.format(
+                    relative_target_path=navtuple[0],
+                    title=navtuple[1],
+                    level=navtuple[2],
+                    selected=suffix,
+                )
 
         return accumulated_html
 
@@ -98,7 +132,7 @@ class TemplateContext:
         converted_html = markdown2.markdown(updated_content)
 
         cssrelpath = os.path.sep.join(
-            os.path.normpath(os.path.relpath(css_file, self.path)).split(os.path.sep)[
+            os.path.normpath(os.path.relpath(css_file_source, self.path)).split(os.path.sep)[
                 1:
             ]
         )
@@ -212,7 +246,6 @@ def write_text(content, filename):
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "w", encoding="utf-8") as f:
         f.write(content)
-
 
 candidates_for_move = []
 
