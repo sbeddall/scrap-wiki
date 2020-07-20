@@ -58,11 +58,16 @@ class TemplateContext:
             if not file == self.path:
                 # self.path = source
                 # file = target
-                relpath = os.path.splitext(os.path.sep.join(
-                    os.path.normpath(os.path.relpath(file, self.path)).split(
-                        os.path.sep
-                    )[1:]
-                ))[0] + ".html"
+                relpath = (
+                    os.path.splitext(
+                        os.path.sep.join(
+                            os.path.normpath(os.path.relpath(file, self.path)).split(
+                                os.path.sep
+                            )[1:]
+                        )
+                    )[0]
+                    + ".html"
+                )
 
                 # get the relative path to the file
                 navtuples.append((relpath, self.get_title(file), level, False))

@@ -37,6 +37,6 @@ if __name__ == "__main__":
         target_port = CONFIG.get("serve_port", "8000")
         print(target_port)
 
-        subprocess.check_call(["python", "-m", "http.server", target_port], cwd = target)
+        subprocess.check_call(["python", "-m", "http.server", target_port], cwd=target)
     else:
         print("Not a recognized command. Exiting.")
