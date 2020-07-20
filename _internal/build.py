@@ -21,6 +21,7 @@ config_file = os.path.join(internal_dir, "config.json")
 gen_index = os.path.join(source_dir, "index.html")
 
 css_file_src = os.path.join(internal_dir, "site.css")
+css_file_source = os.path.join(source_dir, "site.css")
 css_file = os.path.join(target_dir, "site.css")
 
 TOC_ITEM_TEMPLATE = """
@@ -29,6 +30,12 @@ TOC_ITEM_TEMPLATE = """
  {title}
 </div>
 </a>
+"""
+
+TOC_TREE_TEMPLATE = """
+<div class="toc_content_div toc_content_div_l{level}">
+ {title}
+</div>
 """
 
 if os.path.exists(config_file):
@@ -103,7 +110,7 @@ class TemplateContext:
         converted_html = markdown2.markdown(updated_content)
 
         cssrelpath = os.path.sep.join(
-            os.path.normpath(os.path.relpath(css_file, self.path)).split(os.path.sep)[
+            os.path.normpath(os.path.relpath(css_file_source, self.path)).split(os.path.sep)[
                 1:
             ]
         )

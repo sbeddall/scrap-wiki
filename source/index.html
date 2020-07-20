@@ -17,9 +17,9 @@ Shit I want, so it'll get implemented:
 - [ ] Custom Tagging
 - [ ] Search files by tag
 - [ ] Add git hook that runs a cred check to prevent accidental commit of secrets
-- [ ] 
+- [x] Add `serve` functionality for local view
 - [ ] Add file change hook to rebuild documents on the fly
-- [ ] Add a configuration file
+- [x] Add a configuration file
 - [ ] Force my pile of garbage self to actually get a design that looks something close to reasonable.
 
 ## The Iffy Part
@@ -37,7 +37,6 @@ Shit I want, so it'll get implemented:
 ## Optional Arguments
 
 `--clean`: Entirely empties the `docs` directory and re-outputs.
-
 
 ### Asides
 
